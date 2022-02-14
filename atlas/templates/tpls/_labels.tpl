@@ -8,7 +8,7 @@ heritage: {{ print $.Release.Service | quote }}
 environment: {{ print $environment | quote }}
 product: {{ print $product | quote }}
 service: {{ print $service | quote }}
-{{- if not (empty $customLabels) }}
+{{- if $customLabels }}
 {{ toYaml $customLabels }}
 {{- end -}}
 {{- end -}}
