@@ -3,6 +3,7 @@
 {{- $service := required "Service Values Should Be Specified in the service key" (index . "service") -}}
 {{- $ports := required "Ports should be defined in the service context" $service.ports -}}
 {{- $selectors := required "Selectors should be defined in the service context" $service.selectors -}}
+{{- $type := $service.type | default "ClusterIP" -}}
 {{- if not (kindIs "map" $service) -}}
 {{- fail "Service should be of type map" -}}
 {{- end -}}
@@ -10,8 +11,9 @@
 {{- if .externalName }}
 externalName: {{ print .externalName }}
 {{- end }}
-ports: {{ include "service.port" (dict "releaseName" $global.Release.Name "ports" $ports) | nindent 4 }}
-selectors: {{ include "service.selectors" (dict "global" $global.Values "selectors" $selectors) | nindent 4 }}
+ports: {{ include "service.port" (dict "releaseName" $global.Release.Name "ports" $ports) | nindent 2 }}
+selectors: {{ include "service.selectors" (dict "global" $global.Values.global "selectors" $selectors) | nindent 2 }}
+type: {{ include "service.type" $type }}
 {{- end -}}
 {{- end -}}
 
@@ -28,20 +30,28 @@ selectors: {{ include "service.selectors" (dict "global" $global.Values "selecto
 {{- if not (has $value.protocol (list "TCP" "UDP" "STCP")) -}}
 {{- fail "Protocol should be either TCP, UDP or STCP" -}}
 {{- end }}
-  protocol: {{ print $value.protocol | quote }}  
+  protocol: {{ print $value.protocol | quote }}
 {{ end -}}
 {{- end -}}
 
 {{- define "service.selectors" -}}
 {{- $global := required ".Values.global is required to be passed in as global" (index . "global") -}}
+{{- $selectors := (index . "selectors") -}}
 {{- $environment := required "Environment Label should be specified in .Values.global.environment" ($global.environment) -}}
 {{- $product := required "Product Label should be specified in .Values.global.product" ($global.product) -}}
 {{- $service := required "Service Label should be specified in .Values.global.service" ($global.service) -}}
 environment: {{ print $environment | quote }}
 product: {{ print $product | quote }}
 service: {{ print $service | quote }}
-{{- if not (kindIs "map" .) -}}
+{{- if not (kindIs "map" $selectors) -}}
 {{- fail "Selectors should be defined as a map" -}}
 {{- end }}
-{{ toYaml . }}
+{{ toYaml $selectors }}
+{{- end -}}
+
+{{- define "service.type" -}}
+{{- if not (has . (list "ExternalName" "ClusterIP" "NodePort" "LoadBalancer")) -}}
+{{- fail "Service Type should be either of ExternalName, ClusterIP, NodePort or LoadBalancer" -}}
+{{- end -}}
+{{ print . | quote }}
 {{- end -}}
