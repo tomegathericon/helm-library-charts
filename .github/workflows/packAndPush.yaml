@@ -2,7 +2,7 @@ name: packAndPush
 on:
   push:
     branches: 
-    - 'devops/feature-work'
+    - 'master'
 jobs:
   build:
     runs-on: ubuntu-latest
