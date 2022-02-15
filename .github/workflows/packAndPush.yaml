@@ -1,0 +1,34 @@
+name: apply
+on:
+  push:
+    branches: 
+    - 'devops/feature-work'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Helm Package and Push
+    env:
+      tf_plan_location: aws/terraform/services/${{ github.event.inputs.service }}
+    steps:
+      - name: Checkout Source
+        id: git_checkout
+        uses: actions/checkout@v2
+      - name: Setup Helm
+        uses: azure/setup-helm@v1
+        id: install_helm
+      - name: Package
+        id: package
+        shell: cmd
+        run: |
+          helm package atlas
+          mv -v atlas-*.tgz docs/
+          helm repo index docs --url https://${GITHUB_REPOSITORY_OWNER}.github.io/${{ github.event.repository.name }}
+      - name: Push
+        id: push
+        shell: cmd
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Bot"
+          git add .
+          git commit -m "Update Github Pages"
+          git push
