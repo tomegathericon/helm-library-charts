@@ -2,7 +2,17 @@ apiVersion: v1
 entries:
   atlas:
   - apiVersion: v2
-    created: "2022-02-15T09:24:38.467204+05:30"
+    created: "2022-02-15T11:22:21.938511453Z"
+    description: A Helm Library Chart which serves as an atlas to all who want to
+      implement it
+    digest: 2a0605035a98239cc83832019d071d447ee50713eb71d3b88115bfa0238e49a4
+    name: atlas
+    type: library
+    urls:
+    - https://tomegathericon.github.io/helm-library-charts/atlas-1.2.12.tgz
+    version: 1.2.12
+  - apiVersion: v2
+    created: "2022-02-15T11:22:21.938739153Z"
     description: A Helm Library Chart which serves as an atlas to all who want to
       implement it
     digest: 519741108263ce75310ed508bbd75193f433ed5dace45b63237ec6b0e0d9b3d5
@@ -11,4 +21,4 @@ entries:
     urls:
     - https://tomegathericon.github.io/helm-library-charts/atlas-1.2.2.tgz
     version: 1.2.2
-generated: "2022-02-15T09:24:38.466703+05:30"
+generated: "2022-02-15T11:22:21.937357555Z"
