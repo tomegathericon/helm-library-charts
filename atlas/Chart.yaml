@@ -2,4 +2,4 @@ apiVersion: v2
 name: atlas
 description: A Helm Library Chart which serves as an atlas to all who want to implement it
 type: library
-version: 1.2.4
+version: 1.2.12

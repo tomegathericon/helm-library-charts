@@ -1,13 +1,13 @@
 {{- define "service.spec" -}}
 {{- $global := required "Global Context ($ or .) Should Be Specified in the global key" (index . "global") -}}
-{{- $service := required "Service Values Should Be Specified in the service key" (index . "service") -}}
-{{- $ports := required "Ports should be defined in the service context" $service.ports -}}
-{{- $selectors := required "Selectors should be defined in the service context" $service.selectors -}}
-{{- $type := $service.type | default "ClusterIP" -}}
-{{- if not (kindIs "map" $service) -}}
+{{- $spec := required "Service Spec Values Should Be Specified in the spec key" (index . "spec") -}}
+{{- $ports := required "Ports should be defined in the service context" $spec.ports -}}
+{{- $selectors := required "Selectors should be defined in the service context" $spec.selectors -}}
+{{- $type := $spec.type | default "ClusterIP" -}}
+{{- if not (kindIs "map" $spec) -}}
 {{- fail "Service should be of type map" -}}
 {{- end -}}
-{{- with $service -}}
+{{- with $spec -}}
 {{- if .externalName }}
 externalName: {{ print .externalName }}
 {{- end }}
@@ -39,10 +39,10 @@ type: {{ include "service.type" $type }}
 {{- $selectors := (index . "selectors") -}}
 {{- $environment := required "Environment Label should be specified in .Values.global.environment" ($global.environment) -}}
 {{- $product := required "Product Label should be specified in .Values.global.product" ($global.product) -}}
-{{- $service := required "Service Label should be specified in .Values.global.service" ($global.service) -}}
+{{- $spec := required "Service Label should be specified in .Values.global.service" ($global.service) -}}
 environment: {{ print $environment | quote }}
 product: {{ print $product | quote }}
-service: {{ print $service | quote }}
+service: {{ print $spec | quote }}
 {{- if not (kindIs "map" $selectors) -}}
 {{- fail "Selectors should be defined as a map" -}}
 {{- end }}
