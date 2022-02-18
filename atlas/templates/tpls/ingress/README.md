@@ -43,7 +43,7 @@ ports: {{ include "ingress.rule" .rules | nindent 2 }}
 ```
 
 ## **ingress.rule.value**
-Used to generate the [IngressRule](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#httpingressrulevalue-v1-networking-k8s-io) object
+Used to generate the [IngressRuleValue](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#httpingressrulevalue-v1-networking-k8s-io) object
 
 ### **Usage**
 
@@ -59,26 +59,20 @@ Used to generate the [IngressRule](https://kubernetes.io/docs/reference/generate
 {{ include "ingress.rule.value" $value | nindent 6 }}
 ```
 
-## **ingress.type**
-Used to generate and validate the ingress Type. Defaults to `ClusterIP`
-
+## **ingress.backend**
+Used to generate the [IngressBackend](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#ingressbackend-v1-networking-k8s-io) object
 ### **Usage**
 
 ```
-{{ include "ingress.type" $parameters }}
+{{ include "ingress.backend" $parameters }}
 ```
 
 ### **Parameters**
 
-- Currently the following parameters are accepted
-  - `type`: Should be one of
-    - ClusterIP
-    - LoadBalancer
-    - NodePort
-    - ExternalName
+- Accepts a map. Have a look at the [values reference](README.md/#valuesyaml-reference)
 
 ```
-type: {{ include "ingress.type" $type }}
+backend: {{ include "ingress.backend" $backendService | nindent 2 }}
 ```
 
 
