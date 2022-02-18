@@ -20,8 +20,9 @@ Usually this will be the only `function` which will need to be called in the man
   - `resourceType` --> Kubenetes Resource Name. Currently Accepted Resources
     - `Service`
   - `resourceSpec` --> Spec Values
+  - `annoations` --> Annotations to be added to the resource
 
 ```
-{{ include "base" (dict "global" $ "resourceType" "Service" "resourceSpec" $.Values.service) }}
+{{ include "base" (dict "global" $ "resourceType" "Service" "resourceSpec" $.Values.service "annotations" $.Values.service.annotations) }}
 ```
 
