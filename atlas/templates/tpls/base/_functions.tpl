@@ -2,7 +2,7 @@
 {{- $global := required "Global Context ($ or .) should be specified in global" (index . "global") -}}
 {{- $resourceType := required "Resource Name/Type should be specified in resourceType" (index . "resourceType") -}}
 {{- $resourceSpec := required "Resource Spec Values should be specified in resourceSpec" (index . "resourceSpec") -}}
-{{- $acceptedResources := list "Service" -}}
+{{- $acceptedResources := list "Service" "Ingress" -}}
 {{- $v1Resources := list "Service" "ConfigMap" "Secret" -}}
 {{- if not (has $resourceType $acceptedResources) -}}
 {{- fail "Currently the K8S Resources supported are --> Service" -}}
