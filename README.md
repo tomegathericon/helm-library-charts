@@ -35,5 +35,5 @@ version: /**/
 dependencies:
   - name: atlas
     version: /**/
-    repository: https://https://tomegathericon.github.io/helm-library-charts
+    repository: https://tomegathericon.github.io/helm-library-charts
 ```
