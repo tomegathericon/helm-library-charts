@@ -1,5 +1,4 @@
 {{- define "ingress.spec" -}}
-{{/*- $name := required "Name of the Ingress is required to be passes in the name key" (index . "name") -*/}}
 {{- $spec := required "Ingress Spec Values Should Be Specified in the spec key" (index . "spec") -}}
 {{- with $spec -}}
 {{- if .ingressClassName -}}

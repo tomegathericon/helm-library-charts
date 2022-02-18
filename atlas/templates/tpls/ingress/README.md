@@ -1,77 +1,71 @@
-# **Kubernetes Service Resource**
-All Kubernetes Service must follow this [structure](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#service-v1-core)
+# **Kubernetes ingress Resource**
+All Kubernetes ingress must follow this [structure](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#ingress-v1-networking-k8s-io)
 
 ## **Definition**
 
-Functions are defined [here](_functions.tpl) and help in generating the [ServiceSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#servicespec-v1-core) object
+Functions are defined [here](_functions.tpl) and help in generating the [IngressSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#ingressspec-v1-networking-k8s-io) object
 
-## **service.spec**
-Used to generate the service spec resource
+## **ingress.spec**
+Used to generate the ingress spec resource
 
 ### **Usage**
 
 ```
-{{ include "service.spec" $parameters  }}
+{{ include "ingress.spec" $parameters  }}
 ```
 
 ### **Parameters**
 
 - Parameters should be created as a `map` using the [dict](http://masterminds.github.io/sprig/dicts.html) function
 - Currently the following parameters are accepted
-  - `global` --> Global Context ($ or .)
   - `spec` --> Spec Values to be passed on for the resource
 
 ```
-spec: {{ include "service.spec" (dict "global" $global "spec" $resourceSpec) | nindent 2 }}
+spec: {{ include "ingress.spec" ("spec" $resourceSpec) | nindent 2 }}
 ```
 
-## **service.port**
-Used to generate the service port object
+## **ingress.rule**
+Used to generate the [IngressRule](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#ingressrule-v1-networking-k8s-io) object
 
 ### **Usage**
 
 ```
-{{ include "service.port" $parameters }}
+{{ include "ingress.rule" $parameters }}
 ```
 
 ### **Parameters**
 
-- Parameters should be created as a `map` using the [dict](http://masterminds.github.io/sprig/dicts.html) function
-- Currently the following parameters are accepted
-  - `releaseName` --> Name of the Helm Release
-  - `ports` --> Port Values to be passed on for the resource
+- Parameters should be created as a `list`
+- Accepts a list of rules. Have a look at the [values reference](README.md/#valuesyaml-reference)
 
 ```
-ports: {{ include "service.port" (dict "releaseName" $global.Release.Name "ports" $ports) | nindent 2 }}
+ports: {{ include "ingress.rule" .rules | nindent 2 }}
 ```
 
-## **service.selectors**
-Used to generate the service selectors object
+## **ingress.rule.value**
+Used to generate the [IngressRule](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.22/#httpingressrulevalue-v1-networking-k8s-io) object
 
 ### **Usage**
 
 ```
-{{ include "service.selectors" $parameters }}
+{{ include "ingress.rule.value" $parameters }}
 ```
 
 ### **Parameters**
 
-- Parameters should be created as a `map` using the [dict](http://masterminds.github.io/sprig/dicts.html) function
-- Currently the following parameters are accepted
-  - `global` --> Global Context ($ or .)
-  - `selectors` --> Selectors to be passed on for the resource
+- Accepts a map. Have a look at the [values reference](README.md/#valuesyaml-reference)
 
 ```
-selectors: {{ include "service.selectors" (dict "global" $global.Values.global "selectors" $selectors) | nindent 2 }}
+{{ include "ingress.rule.value" $value | nindent 6 }}
 ```
 
-## **service.type**
-Used to generate and validate the Service Type. Defaults to `ClusterIP`
+## **ingress.type**
+Used to generate and validate the ingress Type. Defaults to `ClusterIP`
 
 ### **Usage**
 
 ```
-{{ include "service.type" $parameters }}
+{{ include "ingress.type" $parameters }}
 ```
 
 ### **Parameters**
@@ -84,7 +78,7 @@ Used to generate and validate the Service Type. Defaults to `ClusterIP`
     - ExternalName
 
 ```
-type: {{ include "service.type" $type }}
+type: {{ include "ingress.type" $type }}
 ```
 
 
@@ -92,19 +86,20 @@ type: {{ include "service.type" $type }}
 ## **values.yaml reference**
 
 ```
-service:
- annotations:
-  key: value
- ports:
-  playground:
-    port: 80
-    protocol: TCP
-    targetPort: 80
-  other:
-    port: 8080
-    protocol: TCP
-    targetPort: 8080
- selectors:
-  slot: "1"
-  deploymentIdentifier: "blue"
+ingress:
+  ingressClassName: playground
+  rules:
+    john.doe:
+    - path: /
+      pathType: ImplementationSpecific
+      service:
+        name: playground
+        port: 80
+    jane.doe:
+    - path: /
+      pathType: ImplementationSpecific
+      service:
+        name: playground
+        port: "443"
+
 ```

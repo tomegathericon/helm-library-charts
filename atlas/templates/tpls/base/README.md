@@ -21,8 +21,9 @@ Usually this will be the only `function` which will need to be called in the man
     - `Service`
   - `resourceSpec` --> Spec Values
   - `annoations` --> Annotations to be added to the resource
+  - `name` (Optional) --> The Name of the resource
 
 ```
-{{ include "base" (dict "global" $ "resourceType" "Service" "resourceSpec" $.Values.service "annotations" $.Values.service.annotations) }}
+{{ include "base" (dict "global" $ "resourceType" "Service" "resourceSpec" $.Values.service "annotations" $.Values.service.annotations "name" $.Values.service.name) }}
 ```
 
