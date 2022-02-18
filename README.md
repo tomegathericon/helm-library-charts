@@ -1,4 +1,4 @@
-![Helm Package and Push](https://github.com/tomegathericon/helm-library-charts/workflows/packAndPush.yaml)
+![Helm Package and Push](https://github.com/tomegathericon/helm-library-charts/workflows/packAndPush/badge.svg)
 
 
     __    __   _______  __      .___  ___.                                     
@@ -20,3 +20,20 @@
     |  `----.|  |  |  |  /  _____  \  |  |\  \----.   |  |    .----)   |        
     \______||__|  |__| /__/     \__\ | _| `._____|   |__|    |_______/         
                                                                                 
+
+# **Usage**
+To be referenced in the `Chart.yaml`  file of the calling `Helm Chart`
+
+# **Reference**
+
+```
+apiVersion: v2
+name: /**/
+description: /**/ 
+type: application
+version: /**/
+dependencies:
+  - name: atlas
+    version: /**/
+    repository: https://tomegathericon.github.io/helm-library-charts
+```
