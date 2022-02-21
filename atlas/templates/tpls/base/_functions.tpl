@@ -6,7 +6,7 @@
 {{- $name := (index . "name" | default $global.Release.Name) -}}
 {{- $acceptedResources := list "Service" "Ingress" -}}
 {{- if not (has $resourceType $acceptedResources) -}}
-{{- fail "Currently the K8S Resources supported are --> Service" -}}
+{{- fail "Currently the K8S Resources supported are --> Service, Ingress" -}}
 {{- end -}}
 apiVersion: {{ include "base.apiVersion" $resourceType }}
 kind: {{ print $resourceType | quote }}
